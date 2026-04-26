@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+import os
 
 clients = {}
 
@@ -20,8 +21,9 @@ async def handler(websocket):
         print(f"[-] Отключился: {role}")
 
 async def main():
-    print("Relay-сервер запущен на порту 8765")
-    async with websockets.serve(handler, "0.0.0.0", 8765):
+    port = int(os.environ.get("PORT", 8765))
+    print(f"Relay-сервер запущен на порту {port}")
+    async with websockets.serve(handler, "0.0.0.0", port):
         await asyncio.Future()
 
 asyncio.run(main())
